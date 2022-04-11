@@ -22,6 +22,13 @@
         "description": "Location for all resources."
       }
     },
+    "remoteAccessACL": {
+      "type": "string",
+      "metadata": {
+        "description": "Remote Access CIDR"
+      },
+      "defaultValue": "Internet"
+    },
     "rdpPort": {
       "type": "int",
       "defaultValue": 50001,
@@ -89,10 +96,26 @@
       "apiVersion": "2021-09-01",
       "name": "[variables('storageAccountName')]",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
       "sku": {
         "name": "Standard_LRS"
       },
-      "kind": "Storage"
+      "kind": "Storage",
+      "properties": {
+        "accountType": "Standard_LRS",
+        "networkAcls": {
+          "bypass": "None",
+          "virtualNetworkRules": [
+            {
+              "id": "[variables('subnetRef')]",
+              "action": "Allow"
+            }
+          ],
+          "defaultAction": "Deny"
+        }
+      }
     },
     {
       "apiVersion": "2021-02-01",
@@ -125,7 +148,7 @@
               "destinationPortRange": "3389",
               "protocol": "Tcp",
               "sourcePortRange": "*",
-              "sourceAddressPrefix": "*",
+              "sourceAddressPrefix": "[parameters('remoteAccessACL')]",
               "destinationAddressPrefix": "*"
             }
           }
@@ -191,6 +214,11 @@
             "name": "[variables('subnetName')]",
             "properties": {
               "addressPrefix": "[variables('subnetPrefix')]",
+              "serviceEndpoints": [
+                {
+                  "service": "Microsoft.Storage"
+                }
+              ],
               "networkSecurityGroup": {
                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
               }
