@@ -1,17 +1,11 @@
-# Windows 10 Developer Machine
+# Windows 11 Developer Machine
 
-A Windows 10 Developer Machine to use for Software Development fully configured in under 1 hour.
+A Windows 11 Developer Machine to use for Software Development fully configured in under 1 hour.
 
 1. Git
-1. Edge
 1. Visual Studio Code
 1. Docker
 1. Windows Subsystem Linux
-1. Dotnet Core SDK
-1. Powershell Core
-1. Maven
-1. IntelliJ - Community
-1. AdoptOpenJDK 8 _(Ready to Install)_
 1. Windows Terminal _(Ready to Install)_
 1. Ubuntu _(Ready to Install)_
 
