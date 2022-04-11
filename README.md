@@ -30,9 +30,8 @@ __Configure the Workstation:__ _(30 Minutes)_
    - In Docker Settings enable the following settings.
 
         1. Start Docker Desktop when you login
-        2. Expose Daemon on tcp://localhost:2375 without TLS.
 
-- Install Cascadia Font and set as VSCode default.
+- Set Cascadia Font as the VSCode default.
 
   ```bash
     # VSCode settings.json
@@ -42,39 +41,63 @@ __Configure the Workstation:__ _(30 Minutes)_
     }
   ```
 
-- Install and configure Terminal
+- Configure Windows Terminal
 
-    - Using the Shortcut on the Desktop Install Windows Terminal
-
-    - Install Cascadia Font and configure Windows Terminal to use it.
+    - Start Windows Terminal and Edit Settings to add the follogin
 
       ```json
         {
           "profiles": {
             "list": [
               {
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "name": "Windows PowerShell",
-                "fontFace":  "Cascadia Code PL",
-                "commandline": "powershell.exe",
-                "hidden": false
-              },
-              {
-                  "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-                  "hidden": false,
-                  "name": "PowerShell",
-                  "fontFace":  "Cascadia Code PL",
-                  "source": "Windows.Terminal.PowershellCore"
+                "colorScheme": "PowerShellTom",
+                "commandline": "pwsh -nologo",
+                "font": 
+                {
+                    "face": "CaskaydiaCove NF"
+                },
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore",
+                "startingDirectory": "C:\\Users\\azureuser\\source"
               }
             ]
-          }
+          },
+          "schemes": [
+            {
+                "background": "#012456",
+                "black": "#000000",
+                "blue": "#0000FF",
+                "brightBlack": "#AAAAAA",
+                "brightBlue": "#44B4CC",
+                "brightCyan": "#19D1D8",
+                "brightGreen": "#81EC0D",
+                "brightPurple": "#FF00FF",
+                "brightRed": "#FF0000",
+                "brightWhite": "#E5E5E5",
+                "brightYellow": "#FFD93D",
+                "cursorColor": "#FFFFFF",
+                "cyan": "#19D1D8",
+                "foreground": "#FFFFFF",
+                "green": "#00FF00",
+                "name": "PowerShellTom",
+                "purple": "#9933CC",
+                "red": "#FF6600",
+                "selectionBackground": "#FFFFFF",
+                "white": "#F5F5F5",
+                "yellow": "#FFD93D"
+            }
+          ]
+        }
       ```
 
     - Configure Powershell Prompt to use Posh Git with a paradox theme.
 
         ```powershell
-        Install-Module posh-git -Scope CurrentUser
-        Install-Module oh-my-posh -Scope CurrentUser
+        Install-Module posh-git -Scope CurrentUser -Force
+        Install-Module oh-my-posh -Scope CurrentUser -Force
+        Install-Module Terminal-Icons -Scope CurrentUser -Force
 
         # Set Execution Policy to allow Profile
         Set-ExecutionPolicy -ExecutionPolicy Unrestricted
@@ -82,9 +105,10 @@ __Configure the Workstation:__ _(30 Minutes)_
         notepad $PROFILE
 
         # Add the following to the profile
+        Import-Module -Name Terminal-Icons
         Import-Module posh-git
         Import-Module oh-my-posh
-        Set-PoshPrompt Paradox
+        Set-PoshPrompt -Theme Agnoster
         ```
 
 
