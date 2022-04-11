@@ -26,11 +26,11 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Install-Module -Name Az -Allow
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
 
 # Enable WSL
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
+# Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux -NoRestart
 
 # Download and Install Ubuntu
-Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile ~/Ubuntu.appx -UseBasicParsing
-Add-AppxPackage -Path ~/Ubuntu.appx
+# Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile ~/Ubuntu.appx -UseBasicParsing
+# Add-AppxPackage -Path ~/Ubuntu.appx
 
 # Download Windows Terminal
 Invoke-WebRequest hhttps://github.com/microsoft/terminal/releases/download/v1.12.10732.0/Microsoft.WindowsTerminal_Win11_1.12.10733.0_8wekyb3d8bbwe.msixbundle -OutFile ~/Terminal.msixbundle -UseBasicParsing
