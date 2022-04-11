@@ -17,18 +17,4 @@ echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO 
 apt-get update
 apt-get install azure-cli -y
 
-# Install Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-echo 'export PATH=$PATH:$HOME/.local/bin' >> ~/.bashrc
-echo 'export DOCKER_HOST=tcp://localhost:2375' >> ~/.bashrc
-
-# Install Java
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-sudo add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-sudo apt update
-sudo apt install adoptopenjdk-8-hotspot  # Java 8 / HotSpot VM
-
 mkdir -p ~/.local/bin
