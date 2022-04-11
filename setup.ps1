@@ -32,11 +32,8 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-L
 Invoke-WebRequest -Uri https://aka.ms/wslubuntu2004 -OutFile ~/Ubuntu.appx -UseBasicParsing
 Add-AppxPackage -Path ~/Ubuntu.appx
 
-# Download AdoptOpenJDK
-Invoke-WebRequest https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u242-b08/OpenJDK8U-jdk_x64_windows_hotspot_8u242b08.msi -OutFile ~/Java.msi -UseBasicParsing
-
 # Download Windows Terminal
-Invoke-WebRequest https://github.com/microsoft/terminal/releases/download/v0.10.781.0/Microsoft.WindowsTerminal_0.10.781.0_8wekyb3d8bbwe.msixbundle -OutFile ~/Terminal.msixbundle -UseBasicParsing
+Invoke-WebRequest hhttps://github.com/microsoft/terminal/releases/download/v1.12.10732.0/Microsoft.WindowsTerminal_Win11_1.12.10733.0_8wekyb3d8bbwe.msixbundle -OutFile ~/Terminal.msixbundle -UseBasicParsing
 
 # Download Cascadia Font
 Invoke-WebRequest https://github.com/microsoft/cascadia-code/releases/download/v1911.21/CascadiaPL.ttf -Outfile ~/CascadiaPL.ttf -UseBasicParsing
