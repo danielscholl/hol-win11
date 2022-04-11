@@ -38,7 +38,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -Uri https:/
 Invoke-WebRequest hhttps://github.com/microsoft/terminal/releases/download/v1.12.10732.0/Microsoft.WindowsTerminal_Win11_1.12.10733.0_8wekyb3d8bbwe.msixbundle -OutFile ~/Terminal.msixbundle -UseBasicParsing
 
 # Download Cascadia Font
-Invoke-WebRequest https://github.com/microsoft/cascadia-code/releases/download/v1911.21/CascadiaPL.ttf -Outfile ~/CascadiaPL.ttf -UseBasicParsing
+Invoke-WebRequest https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaPL.ttf -Outfile ~/CascadiaPL.ttf -UseBasicParsing
 
 # Bring down Desktop Shortcuts
 $zipDownload = "https://github.com/danielscholl/hol-win11/blob/master/shortcuts.zip?raw=true"
