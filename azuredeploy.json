@@ -94,31 +94,31 @@
     "scriptFolder": "."
   },
   "resources": [
-    {
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2019-09-01",
-      "name": "[variables('kvName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "enableRbacAuthorization": false,
-        "enableSoftDelete": true,
-        "enablePurgeProtection": true,
-        "enabledForDeployment": true,
-        "enabledForDiskEncryption": true,
-        "enabledForTemplateDeployment": true,
-        "tenantId": "[subscription().tenantId]",
-        "accessPolicies": [
-        ],
-        "sku": {
-          "name": "Standard",
-          "family": "A"
-        },
-        "networkAcls": {
-          "defaultAction": "Allow",
-          "bypass": "AzureServices"
-        }
-      }
-    },
+    // {
+    //   "type": "Microsoft.KeyVault/vaults",
+    //   "apiVersion": "2019-09-01",
+    //   "name": "[variables('kvName')]",
+    //   "location": "[parameters('location')]",
+    //   "properties": {
+    //     "enableRbacAuthorization": false,
+    //     "enableSoftDelete": true,
+    //     "enablePurgeProtection": true,
+    //     "enabledForDeployment": true,
+    //     "enabledForDiskEncryption": true,
+    //     "enabledForTemplateDeployment": true,
+    //     "tenantId": "[subscription().tenantId]",
+    //     "accessPolicies": [
+    //     ],
+    //     "sku": {
+    //       "name": "Standard",
+    //       "family": "A"
+    //     },
+    //     "networkAcls": {
+    //       "defaultAction": "Allow",
+    //       "bypass": "AzureServices"
+    //     }
+    //   }
+    // },
     // {
     //   "type": "Microsoft.KeyVault/vaults/keys",
     //   "apiVersion": "2019-09-01",
@@ -461,9 +461,6 @@
     }
   ],
   "outputs": {
-    "vm-fqdn": {
-      "type": "string",
-      "value": "[reference(variables('publicIPAddressName'), '2016-03-30').dnsSettings.fqdn]"
-    }
+
   }
 }
