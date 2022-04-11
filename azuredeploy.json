@@ -72,6 +72,7 @@
     "storageAccountName": "[format('bootdiags{0}', uniqueString(resourceGroup().id))]",
     "networkSecurityGroupName": "lab-nsg",
     "nicName": "lab-nic",
+    "loadBalancerName": "lab-lb",
     "addressPrefix": "192.168.1.0/24",
     "subnetName": "Subnet",
     "subnetPrefix": "192.168.1.0/24",
@@ -102,10 +103,10 @@
         "name": "Basic"
       },
       "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "dnsSettings": {
-          "domainNameLabel": "[variables('dnsNameForPublicIP')]"
-        }
+        "publicIPAllocationMethod": "Dynamic"
+        // "dnsSettings": {
+        //   "domainNameLabel": "[variables('dnsNameForPublicIP')]"
+        // }
       }
     },
     {
@@ -133,7 +134,7 @@
     },
     {
       "apiVersion": "2020-05-01",
-      "name": "loadBalancer",
+      "name": "[variables('loadBalancerName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
       "dependsOn": [
