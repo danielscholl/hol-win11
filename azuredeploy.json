@@ -77,7 +77,7 @@
   },
   "variables": {
     "storageAccountName": "[format('bootdiags{0}', uniqueString(resourceGroup().id))]",
-    "kvName": "[format('lab', uniqueString(resourceGroup().id))]",
+    "kvName": "[format('lab-kv-', uniqueString(resourceGroup().id))]",
     "keyName": "encryptionkey",
     "diskencsetName": "diskEncryption",
     "kvId": "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]",
