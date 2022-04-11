@@ -161,7 +161,7 @@
             "name": "rdp",
             "properties": {
               "frontendIPConfiguration": {
-                "id": "[resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', 'loadBalancer', 'LBFE')]"
+                "id": "[resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', variables('loadBalancerName'), 'LBFE')]"
               },
               "protocol": "Tcp",
               "frontendPort": "[parameters('rdpPort')]",
@@ -219,12 +219,12 @@
               },
               "loadBalancerBackendAddressPools": [
                 {
-                  "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', 'loadBalancer', 'LBBAP')]"
+                  "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('loadBalancerName'), 'LBBAP')]"
                 }
               ],
               "loadBalancerInboundNatRules": [
                 {
-                  "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', 'loadBalancer', 'rdp')]"
+                  "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', variables('loadBalancerName'), 'rdp')]"
                 }
               ]
             }
