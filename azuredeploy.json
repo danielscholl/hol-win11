@@ -123,7 +123,7 @@
     },
     {
       "type": "Microsoft.Compute/diskEncryptionSets",
-      "apiVersion": "2019-07-01",
+      "apiVersion": "2021-12-01",
       "name": "[variables('diskencsetName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -152,7 +152,7 @@
         "accessPolicies": [
           {
             "tenantId": "[subscription().tenantId]",
-            "objectId": "[reference(resourceId('Microsoft.Compute/diskEncryptionSets', variables('diskencsetName')), '2019-07-01', 'Full').identity.PrincipalId]",
+            "objectId": "[reference(resourceId('Microsoft.Compute/diskEncryptionSets', variables('diskencsetName')), '2021-12-01', 'Full').identity.PrincipalId]",
             "permissions": {
               "keys": [
                 "Get",
