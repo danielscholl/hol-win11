@@ -79,6 +79,7 @@
     "storageAccountName": "[format('bootdiags{0}', uniqueString(resourceGroup().id))]",
     "kvName": "[format('lab', uniqueString(resourceGroup().id))]",
     "keyName": "encryptionkey",
+    "diskencsetName": "diskEncryption",
     "kvId": "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]",
     "networkSecurityGroupName": "lab-nsg",
     "nicName": "lab-nic",
@@ -121,7 +122,6 @@
       }
     },
     {
-      // creating the disk encryption set
       "type": "Microsoft.Compute/diskEncryptionSets",
       "apiVersion": "2019-07-01",
       "name": "diskEncryptionSet",
@@ -137,9 +137,33 @@
           "sourceVault": {
             "id": "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]"
           },
-          // I found the API from the key API
           "keyUrl": "[reference(resourceId('Microsoft.KeyVault/vaults/keys', variables('kvName'), variables('keyName')), '2021-10-01', 'Full').properties.keyUriWithVersion]"
         }
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/accessPolicies",
+      "apiVersion": "2021-10-01",
+      "name": "[concat(variables('kvName'), '/add')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/diskEncryptionSets', variables('diskencsetName'))]"
+      ],
+      "properties": {
+        "accessPolicies": [
+          {
+            "tenantId": "[subscription().tenantId]",
+            "objectId": "[reference(resourceId('Microsoft.Compute/diskEncryptionSets', variables('diskencsetName')), '2019-07-01', 'Full').identity.PrincipalId]",
+            "permissions": {
+              "keys": [
+                "Get",
+                "WrapKey",
+                "UnwrapKey"
+              ],
+              "secrets": [],
+              "certificates": []
+            }
+          }
+        ]
       }
     },
     {
