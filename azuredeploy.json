@@ -78,6 +78,7 @@
   "variables": {
     "storageAccountName": "[format('bootdiags{0}', uniqueString(resourceGroup().id))]",
     "kvName": "[format('lab', uniqueString(resourceGroup().id))]",
+    "keyName": "encryptionkey",
     "kvId": "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]",
     "networkSecurityGroupName": "lab-nsg",
     "nicName": "lab-nic",
@@ -104,6 +105,41 @@
         },
         "tenantId": "[subscription().tenantId]",
         "enabledForVolumeEncryption": true
+      }
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/keys",
+      "apiVersion": "2021-10-01",
+      "name": "[concat(variables('kvName'), '/', variables('keyName'))]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]"
+      ],
+      "properties": {
+        "kty": "RSA",
+        "keySize": 4096
+      }
+    },
+    {
+      // creating the disk encryption set
+      "type": "Microsoft.Compute/diskEncryptionSets",
+      "apiVersion": "2019-07-01",
+      "name": "diskEncryptionSet",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults/keys', variables('kvName'), variables('keyName'))]"
+      ],
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "activeKey": {
+          "sourceVault": {
+            "id": "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]"
+          },
+          // I found the API from the key API
+          "keyUrl": "[reference(resourceId('Microsoft.KeyVault/vaults/keys', variables('kvName'), variables('keyName')), '2021-10-01', 'Full').properties.keyUriWithVersion]"
+        }
       }
     },
     {
@@ -142,9 +178,6 @@
       },
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
-        // "dnsSettings": {
-        //   "domainNameLabel": "[variables('dnsNameForPublicIP')]"
-        // }
       }
     },
     {
