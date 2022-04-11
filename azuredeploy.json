@@ -223,10 +223,6 @@
                   "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', 'loadBalancer', 'rdp')]"
                 }
               ]
-              // "publicIPAddress": {
-              //   "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-              // },
-
             }
           }
         ]
