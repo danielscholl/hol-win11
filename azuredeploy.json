@@ -78,9 +78,7 @@
   "variables": {
     "storageAccountName": "[format('diags{0}', uniqueString(resourceGroup().id))]",
     "kvName": "[format('labkv{0}', uniqueString(resourceGroup().id))]",
-    "keyName": "encryptionkey",
-    "diskencsetName": "diskEncryption",
-    "kvId": "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]",
+    "keyVaultURL": "[concat('https://', variables('kvName'), environment().suffixes.keyVaultDns)]",
     "networkSecurityGroupName": "lab-nsg",
     "nicName": "lab-nic",
     "loadBalancerName": "lab-lb",
@@ -94,6 +92,7 @@
     "scriptFolder": "."
   },
   "resources": [
+
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2021-09-01",
@@ -352,6 +351,53 @@
           }
         }
       ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[variables('kvName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+      ],
+      "properties": {
+        "sku": {
+          "name": "standard",
+          "family": "A"
+        },
+        "networkAcls": {
+          "defaultAction": "Allow",
+          "bypass": "AzureServices"
+        },
+        "enableSoftDelete": true,
+        "enablePurgeProtection": true,
+        "enabledForDeployment": true,
+        "enabledForDiskEncryption": true,
+        "enabledForTemplateDeployment": true,
+        "tenantId": "[subscription().tenantId]",
+        "accessPolicies": []
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2020-12-01",
+      "name": "[concat(variables('vmName'),'/diskEncryption')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Azure.Security",
+        "type": "AzureDiskEncryption",
+        "typeHandlerVersion": "2.2",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "EncryptionOperation": "EnableEncryption",
+          "KeyVaultURL": "[variables('keyVaultURL')]",
+          "KeyVaultResourceId": "[resourceId('Microsoft.KeyVault/vaults/', variables('kvName'))]",
+          "VolumeType": "All"
+        }
+      }
     }
   ],
   "outputs": {
