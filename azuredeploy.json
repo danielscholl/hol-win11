@@ -96,41 +96,38 @@
   "resources": [
     {
       "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2021-10-01",
+      "apiVersion": "2021-06-01-preview",
       "name": "[variables('kvName')]",
       "location": "[parameters('location')]",
       "properties": {
-        "enableRbacAuthorization": false,
+        "sku": {
+          "name": "standard",
+          "family": "A"
+        },
         "enableSoftDelete": true,
         "enablePurgeProtection": true,
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
         "enabledForTemplateDeployment": true,
-        "tenantId": "[subscription().tenantId]",
+        "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
-        ],
-        "sku": {
-          "name": "Standard",
-          "family": "A"
-        },
-        "networkAcls": {
-          "defaultAction": "Allow",
-          "bypass": "AzureServices"
-        }
+        ]
       }
     },
     {
       "type": "Microsoft.KeyVault/vaults/keys",
-      "apiVersion": "2021-10-01",
-      "name": "[concat(variables('kvName'), '/', variables('keyName'))]",
-      "location": "[parameters('location')]",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[format('{0}/{1}', variables('kvName'), variables('keyName'))]",
+      "properties": {
+        "attributes": {
+          "enabled": true
+        },
+        "keySize": 4096,
+        "kty": "RSA"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]"
-      ],
-      "properties": {
-        "kty": "RSA",
-        "keySize": 4096
-      }
+      ]
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
