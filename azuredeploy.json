@@ -109,7 +109,7 @@
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
         "enabledForTemplateDeployment": true,
-        "tenantId": "[parameters('tenantId')]",
+        "tenantId": "[subscription().tenantId]",
         "accessPolicies": [
         ]
       }
