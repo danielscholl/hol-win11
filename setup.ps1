@@ -7,13 +7,15 @@ $Packages = `
   'git', `
   'visualstudiocode', `
   'docker-desktop', `
+  'powershell-core', `
   'cascadiacode', `
-  'powershell-core'
+  'cascadia-code-nerd-font'
+
 
 
 # Install Packages
 ForEach ($PackageName in $Packages)
-{ choco install $PackageName -y 
+{ choco install $PackageName -y
 }
 
 # Add User to Docker Group

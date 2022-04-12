@@ -5,9 +5,6 @@ A Windows 11 Developer Machine to use for Software Development fully configured 
 1. Git
 1. Visual Studio Code
 1. Docker
-1. Windows Subsystem Linux
-1. Windows Terminal _(Ready to Install)_
-1. Ubuntu _(Ready to Install)_
 
 __Create the Workstation:__ _(30 Minutes)_
 
@@ -31,6 +28,9 @@ __Configure the Workstation:__ _(30 Minutes)_
 
         1. Start Docker Desktop when you login
 
+- Configure WSL and Ubuntu
+  `wsl --install -d Ubuntu`
+
 - Set Cascadia Font as the VSCode default.
 
   ```bash
@@ -52,7 +52,7 @@ __Configure the Workstation:__ _(30 Minutes)_
               {
                 "colorScheme": "PowerShellTom",
                 "commandline": "pwsh -nologo",
-                "font": 
+                "font":
                 {
                     "face": "CaskaydiaCove NF"
                 },
