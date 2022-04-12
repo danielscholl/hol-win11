@@ -71,3 +71,70 @@
       }
     }
 ```
+
+```json
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[variables('kvName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+      ],
+      "properties": {
+        "sku": {
+          "name": "standard",
+          "family": "A"
+        },
+        "enableSoftDelete": true,
+        "enablePurgeProtection": true,
+        "enabledForDeployment": true,
+        "enabledForDiskEncryption": true,
+        "enabledForTemplateDeployment": true,
+        "tenantId": "[subscription().tenantId]",
+        "accessPolicies": [
+          {
+            "objectId": "[reference(resourceId('Microsoft.Compute/virtualMachines/', variables('vmName')), '2020-12-01', 'full').identity.principalId]",
+            "tenantId": "[subscription().tenantId]",
+            "permissions": {
+              "keys": [
+                "list",
+                "get",
+                "decrypt",
+                "encrypt",
+                "unwrapkey",
+                "wrapkey"
+              ],
+              "secrets": [
+                "list",
+                "get"
+              ]
+            }
+          }
+        ]
+      }
+    }
+
+      {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "[concat(parameters('vmName'),'/diskEncryption')]",
+        "apiVersion": "2020-12-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
+        ],
+        "location": "[parameters('location')]",
+        "properties": {
+            "publisher": "Microsoft.Azure.Security",
+            "type": "AzureDiskEncryption",
+            "typeHandlerVersion": "2.2",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+                "EncryptionOperation": "[variables('encryptionOperation')]",
+                "KeyVaultURL": "[variables('keyVaultURL')]",
+                "KeyVaultResourceId": "[resourceId('Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]",
+                "VolumeType": "All"
+            }
+          }
+        }
+      }
+```
