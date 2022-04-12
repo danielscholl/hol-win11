@@ -20,30 +20,45 @@ __Configure the Workstation:__ _(30 Minutes)_
 
 - Start Docker-Desktop
 
-   - If the default user was changed add the user to the group
+  - If necessary patch WSL2 Kernel
 
-        `Add-LocalGroupMember -Group "docker-users" -Member $env:UserName`
+  - If the default user was changed add the user to the group
+
+      `Add-LocalGroupMember -Group "docker-users" -Member $env:UserName`
 
    - In Docker Settings enable the following settings.
 
         1. Start Docker Desktop when you login
+        1. Resources / WSL Integration - Enable with Ubuntu
+
 
 - Configure WSL and Ubuntu
-  `wsl --install -d Ubuntu`
 
-- Set Cascadia Font as the VSCode default.
+  - From a Command Prompt Initialize WSL and Ubuntu
 
-  ```bash
-    # VSCode settings.json
-    {
-      "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
-      "editor.fontLigatures": true,
-    }
-  ```
+    `wsl --install -d Ubuntu`
+
+- Configure VSCode
+
+  - Set Cascadia Font as the VSCode default.
+
+    ```bash
+      # VSCode settings.json
+      {
+        "editor.fontFamily": "'Cascadia Code', Consolas, 'Courier New', monospace",
+        "editor.fontLigatures": true,
+      }
+    ```
 
 - Configure Windows Terminal
 
-    - Start Windows Terminal and Edit Settings to add the follogin
+  - Open the Store and Search for Windows Terminal and let it update to latest version if necessary.
+
+  - Start Windows Terminal and Edit Settings to add the following
+
+    - Default Terminal Application - Windows Terminal
+
+    - Configure Windows Terminal for Powershell
 
       ```json
         {
@@ -111,25 +126,22 @@ __Configure the Workstation:__ _(30 Minutes)_
         Set-PoshPrompt -Theme Agnoster
         ```
 
+    - Configure Windows Terminal for Ubuntu
 
-- Install and configure WSL
+    - Configure Windows Terminal for Ubuntu
 
-  - Using the Shortcut on the Desktop Install Ubuntu
-
-  - Configure Windows Terminal for Ubuntu
-
-    ```json
+      ```json
       {
         "profiles": {
           "list": [
             {
               "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
               "hidden": false,
-              "name": "Ubuntu-18.04",
+              "name": "Ubuntu",
               "source": "Windows.Terminal.Wsl",
               "colorScheme": "UbuntuLegit",
-              "fontFace": "Cascadia Code PL",
-              "startingDirectory" : "//wsl$/Ubuntu-18.04/home/azureuser"
+              "fontFace": "CaskaydiaCove NF",
+              "startingDirectory" : "/home/azureuser"
             }
           ]
         },
@@ -157,39 +169,39 @@ __Configure the Workstation:__ _(30 Minutes)_
           }
         ]
       }
-    ```
+      ```
 
   - Configure Ubuntu with default tools.
 
     ```bash
     sudo apt update
     sudo apt install curl
-    curl https://raw.githubusercontent.com/danielscholl/hol-win10/master/setup.sh | sudo bash
+    curl https://raw.githubusercontent.com/danielscholl/hol-win11/master/setup.sh | sudo bash
     ```
 
-  - Install terraform using tfenv
+  - Install terraform using tfenv (Optional)
 
     ```bash
     git clone https://github.com/tfutils/tfenv.git ~/.tfenv
     ln -s ~/.tfenv/bin/* ~/.local/bin
 
-    tfenv install 0.12.24
-    tfenv use 0.12.24
+    tfenv install 1.1.8
+    tfenv use 1.1.8
     ```
 
-  - Install golang using g
+  - Install golang using g (Optional)
     > Do not install the latest version of golang
 
     ```bash
     curl -sSL https://git.io/g-install | sh -s
 
-    g install 1.12.5
+    g install 1.18
     ```
 
   - Setup a Powerline go Prompt
 
     ```bash
-    go get -u github.com/justjanne/powerline-go
+    go install github.com/justjanne/powerline-go@latest
 
     # Add the following to .bashrc to modify prompt
     function _update_ps1() {
