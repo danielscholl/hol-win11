@@ -95,41 +95,6 @@
   },
   "resources": [
     {
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2021-06-01-preview",
-      "name": "[variables('kvName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "sku": {
-          "name": "standard",
-          "family": "A"
-        },
-        "enableSoftDelete": true,
-        "enablePurgeProtection": true,
-        "enabledForDeployment": true,
-        "enabledForDiskEncryption": true,
-        "enabledForTemplateDeployment": true,
-        "tenantId": "[subscription().tenantId]",
-        "accessPolicies": [
-        ]
-      }
-    },
-    {
-      "type": "Microsoft.KeyVault/vaults/keys",
-      "apiVersion": "2021-06-01-preview",
-      "name": "[format('{0}/{1}', variables('kvName'), variables('keyName'))]",
-      "properties": {
-        "attributes": {
-          "enabled": true
-        },
-        "keySize": 4096,
-        "kty": "RSA"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.KeyVault/vaults', variables('kvName'))]"
-      ]
-    },
-    {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2021-09-01",
       "name": "[variables('storageAccountName')]",
@@ -387,6 +352,47 @@
           }
         }
       ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults",
+      "apiVersion": "2021-06-01-preview",
+      "name": "[variables('kvName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+      ],
+      "properties": {
+        "sku": {
+          "name": "standard",
+          "family": "A"
+        },
+        "enableSoftDelete": true,
+        "enablePurgeProtection": true,
+        "enabledForDeployment": true,
+        "enabledForDiskEncryption": true,
+        "enabledForTemplateDeployment": true,
+        "tenantId": "[subscription().tenantId]",
+        "accessPolicies": [
+          {
+            "objectId": "[reference(resourceId('Microsoft.Compute/virtualMachines/', variables('vmName')), '2021-03-01', 'full').identity.principalId]",
+            "tenantId": "[subscription().tenantId]",
+            "permissions": {
+              "keys": [
+                "list",
+                "get",
+                "decrypt",
+                "encrypt",
+                "unwrapkey",
+                "wrapkey"
+              ],
+              "secrets": [
+                "list",
+                "get"
+              ]
+            }
+          }
+        ]
+      }
     }
   ],
   "outputs": {
