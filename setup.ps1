@@ -30,7 +30,9 @@ Add-LocalGroupMember -Group "docker-users" -Member "azureuser"
 Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
 
 # Enable WSL
-wsl --install -d Ubuntu
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -Uri https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi -OutFile .\wsl_update_x64.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I wsl_update_x64.msi /quiet'
+#wsl --install -d Ubuntu
 
 # Reboot
 Restart-Computer
