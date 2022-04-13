@@ -43,6 +43,8 @@ __Configure the Workstation:__ _(30 Minutes)_
 
 - Configure VSCode
 
+  - Set VSCode as the default filetype for .json
+
   - Set Cascadia Font as the VSCode default.
 
     ```bash
