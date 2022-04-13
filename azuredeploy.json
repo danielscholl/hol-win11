@@ -370,7 +370,7 @@
           "bypass": "AzureServices"
         },
         "enableSoftDelete": true,
-        "enablePurgeProtection": true,
+        "enablePurgeProtection": false,
         "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
         "enabledForTemplateDeployment": true,
