@@ -325,30 +325,6 @@
             },
             "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines',concat(variables('vmName')))]"
           }
-        },
-        {
-          "name": "CustomScriptExtension",
-          "type": "extensions",
-          "location": "[resourceGroup().location]",
-          "apiVersion": "2017-12-01",
-          "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
-          ],
-          "tags": {
-            "displayName": "Install LabVM Applications"
-          },
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.4",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "[concat(parameters('_artifactsLocation'), parameters('script'))]"
-              ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', parameters('script'))]"
-            }
-          }
         }
       ]
     },
@@ -392,6 +368,27 @@
           "KeyVaultURL": "[variables('keyVaultURL')]",
           "KeyVaultResourceId": "[resourceId('Microsoft.KeyVault/vaults/', variables('kvName'))]",
           "VolumeType": "All"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2020-12-01",
+      "name": "[concat(variables('vmName'),'/customscript')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('vmName'), 'diskEncryption')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "[concat(parameters('_artifactsLocation'), parameters('script'))]"
+          ],
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('scriptFolder'), '/', parameters('script'))]"
         }
       }
     }
