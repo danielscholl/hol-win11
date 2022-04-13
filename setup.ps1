@@ -35,4 +35,4 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-WebRequest -Uri https:/
 #wsl --install -d Ubuntu
 
 # Reboot
-# Restart-Computer
+Restart-Computer
