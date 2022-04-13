@@ -369,11 +369,7 @@
           "defaultAction": "Allow",
           "bypass": "AzureServices"
         },
-        "enableSoftDelete": true,
-        "enablePurgeProtection": false,
-        "enabledForDeployment": true,
         "enabledForDiskEncryption": true,
-        "enabledForTemplateDeployment": true,
         "tenantId": "[subscription().tenantId]",
         "accessPolicies": []
       }
