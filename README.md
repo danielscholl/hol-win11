@@ -29,7 +29,6 @@ __Configure the Workstation:__ _(30 Minutes)_
    - In Docker Settings enable the following settings.
 
         1. Start Docker Desktop when you login
-        1. Resources / WSL Integration - Enable with Ubuntu
 
 
 - Configure WSL and Ubuntu
@@ -37,6 +36,10 @@ __Configure the Workstation:__ _(30 Minutes)_
   - From a Command Prompt Initialize WSL and Ubuntu
 
     `wsl --install -d Ubuntu`
+    
+  - In Docker Settings enable the followign settings.
+
+    1.  Resources / WSL Integration - Enable with Ubuntu
 
 - Configure VSCode
 
