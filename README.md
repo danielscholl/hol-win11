@@ -70,17 +70,17 @@ __Configure the Workstation:__ _(30 Minutes)_
           "profiles": {
             "list": [
               {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore",
                 "colorScheme": "PowerShellTom",
                 "commandline": "pwsh -nologo",
                 "font":
                 {
                     "face": "CaskaydiaCove NF"
                 },
-                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-                "hidden": false,
-                "name": "PowerShell",
-                "source": "Windows.Terminal.PowershellCore",
-                "startingDirectory": "C:\\Users\\azureuser\\source"
+                "startingDirectory": "C:\\Users\\azureuser"
               }
             ]
           },
@@ -188,8 +188,10 @@ __Configure the Workstation:__ _(30 Minutes)_
 
     ```bash
     git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+    mkdir -p ~/.local/bin
     ln -s ~/.tfenv/bin/* ~/.local/bin
 
+    # Restart Shell
     tfenv install 1.1.8
     tfenv use 1.1.8
     ```
@@ -200,6 +202,7 @@ __Configure the Workstation:__ _(30 Minutes)_
     ```bash
     curl -sSL https://git.io/g-install | sh -s
 
+    # Restart Shell
     g install 1.18
     ```
 
@@ -216,3 +219,5 @@ __Configure the Workstation:__ _(30 Minutes)_
         PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
     fi
     ```
+    
+  - Apply a Windows Update
