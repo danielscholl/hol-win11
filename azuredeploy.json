@@ -31,7 +31,7 @@
     },
     "rdpPort": {
       "type": "int",
-      "defaultValue": 50001,
+      "defaultValue": 3389,
       "metadata": {
         "description": "Public port number for RDP"
       }
@@ -89,7 +89,16 @@
     "vmName": "lab",
     "virtualNetworkName": "lab-vnet",
     "publicIPAddressName": "lab-ip",
-    "scriptFolder": "."
+    "scriptFolder": ".",
+    "pipObject": {
+      "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+    },
+    "backendObject": {
+      "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('loadBalancerName'), 'LBBAP')]"
+    },
+    "natObject": {
+      "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', variables('loadBalancerName'), 'rdp')]"
+    }
   },
   "resources": [
 
@@ -158,6 +167,7 @@
       "apiVersion": "2020-05-01",
       "name": "[variables('loadBalancerName')]",
       "type": "Microsoft.Network/loadBalancers",
+      "condition": "[not(equals(parameters('rdpPort'), '3389'))]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
@@ -230,6 +240,7 @@
       "apiVersion": "2021-02-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
+      "condition": "[not(equals(parameters('rdpPort'), '3389'))]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]",
@@ -245,15 +256,12 @@
                 "id": "[variables('subnetRef')]"
               },
               "loadBalancerBackendAddressPools": [
-                {
-                  "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('loadBalancerName'), 'LBBAP')]"
-                }
+                "[if(not(equals(parameters('rdpPort'), '3389')), variables('backendObject'), json('null'))]"
               ],
               "loadBalancerInboundNatRules": [
-                {
-                  "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', variables('loadBalancerName'), 'rdp')]"
-                }
-              ]
+                "[if(not(equals(parameters('rdpPort'), '3389')), variables('natObject'), json('null'))]"
+              ],
+              "publicIPAddress": "[if(equals(parameters('rdpPort'), '3389'), variables('pipObject'), json('null'))]"
             }
           }
         ]
